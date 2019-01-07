@@ -15,5 +15,18 @@ const showPage = (list, page) => {
   }
 }
 
-
-// Remember to delete the comments that came with this file, and replace them with your own code comments.
+const appendPageLinks = (list) => {
+  let pages = Math.ceil(list.length / 10);
+  let div = document.createElement('div');
+  div.classList.add('pagination');
+  let ul = document.createElement('ul');
+  for (let i = 1; i <= pages; i++) {
+    let li = document.createElement('li');
+    let a = document.createElement('a');
+    a.textContent = i;
+    li.appendChild(a);
+    ul.appendChild(li);
+  }
+  div.appendChild(ul);
+  pageContainer.appendChild(div);
+}
