@@ -6,11 +6,10 @@ const pageContainer = document.querySelector('.page');
 const classList = document.querySelector('.student-list');
 const students = document.getElementsByClassName('student-item');
 
-
 const showPage = (list, page) => {
   let max = page * 10;
   let min = max - 10;
-  for (let i = min; i <= max; i++) {
+  for (let i = 0; i < list.length; i++) {
     console.log(list[i]);
   }
 }
@@ -30,3 +29,10 @@ const appendPageLinks = (list) => {
   div.appendChild(ul);
   pageContainer.appendChild(div);
 }
+
+appendPageLinks(students);
+
+document.querySelector('.pagination').addEventListener('click', (e) => {
+  let pageNumber = parseInt(e.target.textContent);
+  showPage(students, pageNumber);
+})
