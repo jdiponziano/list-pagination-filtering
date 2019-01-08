@@ -35,6 +35,7 @@ const appendPageLinks = (list) => {
   pageContainer.appendChild(div);
 }
 
+showPage(students, 1);
 appendPageLinks(students);
 
 document.querySelector('.pagination').addEventListener('click', (e) => {
