@@ -53,7 +53,16 @@ document.addEventListener('DOMContentLoaded', () => {
   //Add event listener to pagination links
   document.querySelector('.pagination').addEventListener('click', (e) => {
     e.preventDefault();
-    const pageNumber = parseInt(e.target.textContent);
+    const activeLink = e.target;
+    const pageNumber = parseInt(activeLink.textContent);
+    const links = document.querySelectorAll('.pagination a');
     showPage(students, pageNumber);
+    for(let i = 0; i < links.length; i ++) {
+      if ( links[i] == activeLink) {
+        links[i].classList.add('active');
+      } else {
+        links[i].classList.remove('active');
+      }
+    }
   })
 });
