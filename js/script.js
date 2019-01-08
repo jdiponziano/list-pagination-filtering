@@ -81,5 +81,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     }
-  })
+  });
+
+  document.querySelector('input').addEventListener('keyup', function(){
+    const inputValue = document.querySelector('input').value;
+    for (let i = 0; i < students.length; i++) {
+      const li = students[i];
+        if (li.innerHTML.includes(inputValue)) {
+          li.style.display = 'block';
+        } else {
+          li.style.display = 'none';
+        }
+      }
+  });
 });
+
