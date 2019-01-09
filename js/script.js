@@ -51,13 +51,15 @@ document.addEventListener('DOMContentLoaded', () => {
   //Add pagination links to page
   const appendPageLinks = (list) => {
     const pages = Math.ceil(list.length / 10);
-    const div = document.createElement('div');
-    div.classList.add('pagination');
-    for (let i = 1; i <= pages; i++) {
-      createLink(i);
+    if ( pages > 1) {
+      const div = document.createElement('div');
+      div.classList.add('pagination');
+      for (let i = 1; i <= pages; i++) {
+        createLink(i);
+      }
+      div.appendChild(ul);
+      pageContainer.appendChild(div);
     }
-    div.appendChild(ul);
-    pageContainer.appendChild(div);
   }
 
   //Initialize pagination on page load
