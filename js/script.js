@@ -9,8 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const classList = document.querySelector('.student-list');
   const students = classList.children;
 
-
-
   //Show/hide page items in relation to page selected
   const showPage = (list, page) => {
     const max = page * 10;
@@ -92,13 +90,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputValue = document.querySelector('input').value;
     const pagination = document.querySelector('.pagination');
     const searchResults = document.createElement('ul');
-    searchResults.classList.add('search-results-list');
+    searchResults.classList.add('student-list');
     for (let i = 0; i < students.length; i++) {
       const li = students[i];
         if (li.innerHTML.includes(inputValue)) {
           searchResults.appendChild(li);
         }
       }
+    pageContainer.removeChild(classList);
     pageContainer.removeChild(pagination);
     pageContainer.appendChild(searchResults);
     const newList = searchResults.children;
