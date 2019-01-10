@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const min = max - 10;
     for (let i = 0; i < list.length; i++) {
       const li = list[i];
-      if( i >= min && i < max ) {
+      if (i >= min && i < max) {
         li.style.display = 'block';
       } else {
         li.style.display = 'none';
@@ -23,42 +23,61 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  //Hide all students
+  const hideAllStudents = () => {
+    for (let i = 0; i < students.length; i++) {
+      const li = students[i];
+      li.style.display = 'none';
+    }
+  }
+
+  //Create new elements helper function
+  const createElement = (element, attr, value) => {
+    const elem = document.createElement(element);
+    elem[attr] = value;
+    return elem;
+  }
+
+  //Append new elements helper function
+  const appendNewElem = (parent, elementName, property, value) => {
+    const elem = createElement(elementName, property, value);
+    parent.appendChild(elem);
+    return elem;
+  }
+
+  //Create and add search form to the page
   const createSearchForm = () => {
-    const div = document.createElement('div');
-    div.classList.add('student-search');
-    
-    const input = document.createElement('input');
-    input.type = 'text';
+    const div = createElement('div', 'classList', 'student-search');
+    const input = createElement('input', 'type', 'text');
     input.placeholder = 'Search for students...';
-    
     div.appendChild(input);
-    const button = document.createElement('button');
-    button.textContent = 'Search';
-    
-    div.appendChild(button);
+    appendNewElem(div, 'button', 'textContent', 'Search');
     pageHeader.appendChild(div);
   }
 
   //Construct html of pagination link
   const createLink = text => {
     const li = document.createElement('li');
-    const a = document.createElement('a');
+    const a = createElement('a', 'textContent', text);
     a.setAttribute('href', '#');
-    a.textContent = text;
     li.appendChild(a);
     return li;
   }
 
-  //Add pagination links to page
-  const appendPageLinks = (list) => {
-    const pages = Math.ceil(list.length / 10);
+  //Remove pagination links
+  const removePagination = () => {
     const pagination = document.querySelector('.pagination');
     if (pagination) {
       pageContainer.removeChild(pagination);
     }
-    if ( pages > 1) {
-      const div = document.createElement('div');
-      div.classList.add('pagination');
+  }
+
+  //Create pagination links
+  const createPagination = list => {
+    const pages = Math.ceil(list.length / 10);
+    removePagination();
+    if (pages > 1) {
+      const div = createElement('div', 'classList', 'pagination');
       const ul = document.createElement('ul');
       for (let i = 1; i <= pages; i++) {
         const link = createLink(i);
@@ -66,55 +85,54 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       div.appendChild(ul);
       pageContainer.appendChild(div);
+      return div;
+    }
+  }
 
-      //Add event listener to pagination links
-      div.addEventListener('click', (e) => {
-        e.preventDefault();
-        const activeLink = e.target;
-        if (activeLink.tagName === 'A') {
-          const pageNumber = parseInt(activeLink.textContent);
-          const links = document.querySelectorAll('.pagination a');
-          showPage(list, pageNumber);
-          for (let i = 0; i < links.length; i++) {
-            if (links[i] == activeLink) {
-              links[i].classList.add('active');
-            } else {
-              links[i].classList.remove('active');
-            }
+  //Add event listener to pagination links
+  const appendPageLinks = (list) => {
+    const div = createPagination(list);
+    div.addEventListener('click', (e) => {
+      e.preventDefault();
+      const activeLink = e.target;
+      if (activeLink.tagName === 'A') {
+        const pageNumber = parseInt(activeLink.textContent);
+        const links = document.querySelectorAll('.pagination a');
+        showPage(list, pageNumber);
+        for (let i = 0; i < links.length; i++) {
+          if (links[i] == activeLink) {
+            links[i].classList.add('active');
+          } else {
+            links[i].classList.remove('active');
           }
         }
-      });
-    }
+      }
+    });
   }
 
   //Initialize pagination on page load
   createSearchForm();
   showPage(students, 1);
   appendPageLinks(students);
-  
 
-  document.querySelector('input').addEventListener('keyup', function(){
+
+  document.querySelector('input').addEventListener('keyup', function () {
     const inputValue = document.querySelector('input').value;
     const results = [];
     for (let i = 0; i < students.length; i++) {
       const li = students[i];
       const h3 = li.querySelector('h3');
       if (h3.textContent.includes(inputValue)) {
-          results.push(li);
-        }
+        results.push(li);
       }
-    for (let i = 0; i < students.length; i++) {
-      const li = students[i];
-      li.style.display = 'none';
     }
-    console.log(results);
-    if(results == 0) {
+    hideAllStudents();
+    if (results == 0) {
+      removePagination();
       alert('no results');
     } else {
       showPage(results, 1);
       appendPageLinks(results);
     }
-    
   });
-
 });
