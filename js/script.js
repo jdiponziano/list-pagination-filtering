@@ -72,6 +72,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  //Remove no results message
+  const removeErrorMsg = () => {
+    const errorDiv = document.querySelector('.error-message');
+    if (errorDiv) {
+      errorDiv.parentNode.removeChild(errorDiv);
+    }
+  }
+
   //Create pagination links
   const createPagination = list => {
     const pages = Math.ceil(list.length / 10);
@@ -118,6 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelector('input').addEventListener('keyup', function () {
     const inputValue = document.querySelector('input').value;
+    removeErrorMsg();
     const results = [];
     for (let i = 0; i < students.length; i++) {
       const li = students[i];
@@ -129,7 +138,9 @@ document.addEventListener('DOMContentLoaded', () => {
     hideAllStudents();
     if (results == 0) {
       removePagination();
-      alert('no results');
+      const errorDiv = createElement('div', 'classList', 'error-message');
+      errorDiv.textContent = "There are not matching results to your search.";
+      pageContainer.appendChild(errorDiv);
     } else {
       showPage(results, 1);
       appendPageLinks(results);
