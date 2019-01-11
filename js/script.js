@@ -24,9 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   //Hide all students
-  const hideAllStudents = () => {
-    for (let i = 0; i < students.length; i++) {
-      const li = students[i];
+  const hideAllStudents = (list) => {
+    for (let i = 0; i < list.length; i++) {
+      const li = list[i];
       li.style.display = 'none';
     }
   }
@@ -91,6 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const link = createLink(i);
         ul.appendChild(link);
       }
+      ul.firstChild.children[0].classList.add('active');
       div.appendChild(ul);
       pageContainer.appendChild(div);
       return div;
@@ -129,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
         results.push(li);
       }
     }
-    hideAllStudents();
+    hideAllStudents(students);
     if (results.length == 0) {
       removePagination();
       const errorDiv = createElement('div', 'classList', 'error-message');
