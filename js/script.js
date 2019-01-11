@@ -130,12 +130,15 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
     hideAllStudents();
-    if (results == 0) {
+    if (results.length == 0) {
       removePagination();
       const errorDiv = createElement('div', 'classList', 'error-message');
       errorDiv.textContent = "There are not matching results to your search.";
       pageContainer.appendChild(errorDiv);
-    } else {
+    } else if(results.length < 10) {
+      removePagination();
+      showPage(results, 1);
+    }  else {
       showPage(results, 1);
       appendPageLinks(results);
     }
