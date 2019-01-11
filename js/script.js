@@ -118,13 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  //Initialize pagination on page load
-  createSearchForm();
-  showPage(students, 1);
-  appendPageLinks(students);
-
-
-  document.querySelector('input').addEventListener('keyup', function () {
+  const filtering = () => {
     const inputValue = document.querySelector('input').value;
     removeErrorMsg();
     const results = [];
@@ -145,5 +139,18 @@ document.addEventListener('DOMContentLoaded', () => {
       showPage(results, 1);
       appendPageLinks(results);
     }
+  }
+
+  //Initialize pagination on page load
+  createSearchForm();
+  showPage(students, 1);
+  appendPageLinks(students);
+
+  //Add event listener for search input
+  document.querySelector('input').addEventListener('keyup', function () {
+    filtering();
+  });
+  document.querySelector('.student-search button').addEventListener('click', function () {
+    filtering();
   });
 });
